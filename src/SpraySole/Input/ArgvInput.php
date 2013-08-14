@@ -37,7 +37,7 @@ class ArgvInput implements Input {
                 continue;
             }
 
-
+            $parsedArgs[] = $arg;
         }
 
         return [$parsedArgs, $parsedOptions];
