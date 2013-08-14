@@ -18,9 +18,12 @@ abstract class AbstractOutput implements Output {
         $this->Formatter = $Formatter;
     }
 
+    public function setFormatter(Formatter $Formatter) {
+        $this->Formatter = $Formatter;
+    }
 
-
-
-
+    public function getFormatter() {
+        return $this->Formatter;
+    }
 
 }
