@@ -21,22 +21,35 @@ class ArgvInput implements Input {
         $parsedOptions = [];
         $parsedArgs = [];
 
+
+        $optionKey = null;
+        $parsingArgs = false;
         foreach($args as $arg) {
             if (isset($optionKey)) {
-                $parsedOptions[$optionKey] = $arg;
+                $index = $optionKey;
+                $optionKey = null;
+                if (\substr($arg, 0, 1) !== '-') {
+                    $parsedOptions[$index] = $arg;
+                    continue;
+                }
             }
-            $optionKey = null;
 
             if (\substr($arg, 0, 1) === '-' && \array_key_exists($arg, $alias)) {
                 $arg = $this->alias[$arg];
             }
 
             if (\substr($arg, 0, 2) === '--') {
+                if ($parsingArgs) {
+                    $message = 'An option flag was provided after an argument and could not be parsed properly';
+                    throw new Exception\InvalidInputException($message);
+                }
+
                 $optionKey = \substr($arg, 2);
                 $parsedOptions[$optionKey] = true;
                 continue;
             }
 
+            $parsingArgs = true;
             $parsedArgs[] = $arg;
         }
 
@@ -72,6 +85,11 @@ class ArgvInput implements Input {
         return $this->ArrayInput->getArgument($argIndex);
     }
 
+    /**
+     *
+     *
+     * @return int
+     */
     public function argumentsCount() {
         return $this->ArrayInput->argumentsCount();
     }
