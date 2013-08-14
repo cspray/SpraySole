@@ -11,13 +11,13 @@ class ArgvInput implements Input {
 
     private $ArrayInput;
 
-    public function __construct(array $args, array $alias = []) {
+    public function __construct(array $args, array $alias = [], array $boolOnlyFlags = []) {
         $this->alias = $alias;
-        list($parsedArgs, $parsedOptions) = $this->parseArgs($args, $alias);
+        list($parsedArgs, $parsedOptions) = $this->parseArgs($args, $alias, $boolOnlyFlags);
         $this->ArrayInput = new ArrayInput($parsedArgs, $parsedOptions);
     }
 
-    private function parseArgs(array $args, array $alias) {
+    private function parseArgs(array $args, array $alias, array $boolOnlyFlags) {
         $parsedOptions = [];
         $parsedArgs = [];
 
@@ -31,6 +31,7 @@ class ArgvInput implements Input {
             if (isset($optionKey)) {
                 $index = $optionKey;
                 $optionKey = null;
+
                 if (\substr($arg, 0, 1) !== '-') {
                     $parsedOptions[$index] = $arg;
                     continue;
@@ -49,6 +50,10 @@ class ArgvInput implements Input {
 
                 $optionKey = \substr($arg, 2);
                 $parsedOptions[$optionKey] = true;
+                if (\in_array($arg, $boolOnlyFlags)) {
+                    $optionKey = null;
+                }
+
                 continue;
             }
 
