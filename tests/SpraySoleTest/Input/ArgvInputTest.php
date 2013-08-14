@@ -116,4 +116,22 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Input->getOption('bool1'));
     }
 
+    public function testBoolOnlyOptionDoesNotCapturePrecedingArgs() {
+        $args = [
+            '--bool1',
+            '--bool2',
+            'arg1',
+            'arg2'
+        ];
+        $aliases = [];
+        $boolOnly = ['--bool1', '--bool2'];
+
+        $Input = new ArgvInput($args, $aliases, $boolOnly);
+
+        $this->assertTrue($Input->getOption('bool1'));
+        $this->assertTrue($Input->getOption('bool2'));
+        $this->assertSame($Input->getArgument(0), 'arg1');
+        $this->assertSame($Input->getArgument(1), 'arg2');
+    }
+
 }
