@@ -21,6 +21,9 @@ class ArgvInput implements Input {
         $parsedOptions = [];
         $parsedArgs = [];
 
+        if (isset($args[0]) && \strpos($args[0], 'console.php')) {
+            unset($args[0]);
+        }
 
         $optionKey = null;
         $parsingArgs = false;
