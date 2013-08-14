@@ -70,4 +70,13 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('alias of --foo', $Input->getOption('foo'));
     }
 
+    public function testParsingOneArgWithNoOptions() {
+        $args = [
+            'spraysole'
+        ];
+        $Input = new ArgvInput($args);
+
+        $this->assertSame('spraysole', $Input->getArgument(0));
+    }
+
 }
