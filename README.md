@@ -15,7 +15,7 @@ SpraySole is a PHP library to help create console applications powered by PHP. T
 
 ##### For use
 
-Right now the only supported method for installing SpraySole for use is by [downloading a tarball][spraysoledownload].
+Right now the only supported method for installing SpraySole for use is by [downloading a zip file][spraysoledownload].
 
 As the library matures Composer support will be added and the library available through Packagist.
 
@@ -61,5 +61,5 @@ spraysole --foo bar --bar baz commandname arg1 arg2 arg3
 ```
 
 [solid]: http://en.wikipedia.org/wiki/SOLID_(object-oriented_design) "S.O.L.I.D."
-[spraysoledownload]: https://github.com/cspray/SpraySole/download "SpraySole Download"
+[spraysoledownload]: https://github.com/cspray/SpraySole/archive/master.zip "SpraySole Download"
 
