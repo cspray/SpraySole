@@ -15,7 +15,7 @@ SpraySole is a PHP library to help create console applications powered by PHP. T
 
 ##### For use
 
-Right now the only supported method for installing SpraySole for use is by [downloading a tarball](spraysoledownload).
+Right now the only supported method for installing SpraySole for use is by [downloading a tarball][spraysoledownload].
 
 As the library matures Composer support will be added and the library available through Packagist.
 
@@ -35,6 +35,8 @@ git clone https://github.com/cspray/SpraySole.git
 <?php
 
 use \SpraySole\Application;
+use \SpraySole\Input\ArgvInput;
+use \SpraySole\Output\StreamOutput;
 
 // this is /install/console.php
 
@@ -42,7 +44,12 @@ $App = new Application();
 
 $App->addCommand(new \YourApp\CommandName());
 
-$App->run();
+$Input = new ArgvInput($argv);
+$StdOut = new StreamOutput('php://stdin');
+$StdErr = new StreamOutput('php://stderr');
+
+// $StdErr is optional and will use $StdOut if not provided
+$App->run($Input, $StdOut, $StdErr);
 
 ?>
 ```
