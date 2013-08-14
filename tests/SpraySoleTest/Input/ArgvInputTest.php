@@ -93,5 +93,17 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $Input = new ArgvInput($args);
     }
 
+    public function testMultipleBooleanOptionsParsedProperly() {
+        $args = [
+            '--bool1',
+            '--bool2'
+        ];
+
+        $Input = new ArgvInput($args);
+
+        $this->assertTrue($Input->getOption('bool1'));
+        $this->assertTrue($Input->getOption('bool2'));
+    }
+
 
 }
