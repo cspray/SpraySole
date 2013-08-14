@@ -79,4 +79,19 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('spraysole', $Input->getArgument(0));
     }
 
+    public function testOptionsAfterFirstArgThrowsException() {
+        $args = [
+            '--foo',
+            'bar',
+            'arg1',
+            '--invalid',
+            'flag'
+        ];
+
+        $message = 'An option flag was provided after an argument and could not be parsed properly';
+        $this->setExpectedException('\\SpraySole\\Input\\Exception\\InvalidInputException', $message);
+        $Input = new ArgvInput($args);
+    }
+
+
 }
