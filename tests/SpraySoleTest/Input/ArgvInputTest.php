@@ -105,5 +105,15 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Input->getOption('bool2'));
     }
 
+    public function testFirstArgHasConsoleFileNameIsRemoved() {
+        $args = [
+            '/path/to/console.php',
+            '--bool1',
+        ];
+
+        $Input = new ArgvInput($args);
+
+        $this->assertTrue($Input->getOption('bool1'));
+    }
 
 }
