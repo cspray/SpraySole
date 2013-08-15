@@ -25,7 +25,7 @@ interface Output {
      * @param string $message
      * @param boolean $newLine
      * @param string $formatType
-     * @return string
+     * @return integer
      */
     public function write($message, $newLine = self::DO_NOT_APPEND_NEW_LINE, $formatType = self::OUTPUT_NORMAL);
 
