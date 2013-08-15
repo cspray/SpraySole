@@ -60,7 +60,7 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
                       ->method('format');
         $Output->setFormatter($MockFormatter);
 
-        $Output->write('raw message');
+        $Output->write('raw message', Output::DO_NOT_APPEND_NEW_LINE, Output::OUTPUT_RAW);
 
         $actual = StreamStub::$body;
         $this->assertSame('raw message', $actual);
