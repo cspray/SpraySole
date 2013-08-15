@@ -8,6 +8,7 @@
 
 namespace SpraySoleTest\Output;
 
+use \SpraySole\Output\Output;
 use \SpraySole\Output\StreamOutput;
 use \SpraySoleTest\Stubs\StreamStub;
 
@@ -27,6 +28,15 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
 
         $actual = StreamStub::$body;
         $this->assertSame('test message', $actual);
+    }
+
+    public function testStreamOutputWritingMessageWithNewLinePassingStringStreamName() {
+        $this->resetStream();
+        $Output = new StreamOutput('spraysoletest://whatever');
+        $Output->write('message with new line', Output::APPEND_NEW_LINE);
+
+        $actual = StreamStub::$body;
+        $this->assertSame('message with new line' . \PHP_EOL, $actual);
     }
 
     public function resetStream() {
