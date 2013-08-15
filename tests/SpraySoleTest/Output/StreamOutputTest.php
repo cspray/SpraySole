@@ -47,7 +47,7 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
                       ->will($this->returnValue('the formatted msg'));
         $Output->setFormatter($MockFormatter);
 
-        $Output->write('message with new line');
+        $Output->write('format message');
 
         $actual = StreamStub::$body;
         $this->assertSame('the formatted msg', $actual);
