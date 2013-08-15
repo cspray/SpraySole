@@ -12,7 +12,7 @@ class StreamStub {
 
     public $context;
     public static $body = '';
-    private static $position = 0;
+    public static $position = 0;
 
     public function stream_open($path, $mode, $options, &$opened_path) {
         return true;
