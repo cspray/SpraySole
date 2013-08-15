@@ -12,9 +12,6 @@ use \SpraySole\Output\Output;
 use \SpraySole\Output\StreamOutput;
 use \SpraySoleTest\Stubs\StreamStub;
 
-// registering the wrapper does not trigger autoloading so we have to manually include the file
-require_once \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/Stubs/StreamStub.php';
-
 class StreamOutputTest extends \PHPUnit_Framework_TestCase {
 
     public static function setUpBeforeClass() {
