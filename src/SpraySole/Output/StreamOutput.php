@@ -40,7 +40,9 @@ class StreamOutput extends AbstractOutput {
      * @return integer
      */
     public function write($message, $newLine = false, $formatType = self::OUTPUT_NORMAL) {
-        $message = $this->getFormatter()->format($message);
+        if ($formatType === self::OUTPUT_NORMAL) {
+            $message = $this->getFormatter()->format($message);
+        }
 
         if ($newLine) {
             $message .= \PHP_EOL;
