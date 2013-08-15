@@ -21,8 +21,11 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
         \stream_wrapper_register('spraysoletest', '\\SpraySoleTest\\Stubs\\StreamStub');
     }
 
-    public function testStreamOutputWritingMessageWithoutNewLinePassingStringStreamName() {
+    public function setUp() {
         $this->resetStream();
+    }
+
+    public function testStreamOutputWritingMessageWithoutNewLinePassingStringStreamName() {
         $Output = new StreamOutput('spraysoletest://whatever');
         $Output->write('test message');
 
@@ -31,7 +34,6 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testStreamOutputWritingMessageWithNewLinePassingStringStreamName() {
-        $this->resetStream();
         $Output = new StreamOutput('spraysoletest://whatever');
         $Output->write('message with new line', Output::APPEND_NEW_LINE);
 
