@@ -53,6 +53,19 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('the formatted msg', $actual);
     }
 
+    public function testStreamOutputRawDoesNotFormatMessage() {
+        $Output = new StreamOutput('spraysoletest://whatever');
+        $MockFormatter = $this->getMock('\\SpraySole\\Output\\Formatter');
+        $MockFormatter->expects($this->never())
+                      ->method('format');
+        $Output->setFormatter($MockFormatter);
+
+        $Output->write('raw message');
+
+        $actual = StreamStub::$body;
+        $this->assertSame('raw message', $actual);
+    }
+
     public function resetStream() {
         StreamStub::$body = '';
         StreamStub::$position = 0;
