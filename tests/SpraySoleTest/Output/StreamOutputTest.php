@@ -21,6 +21,7 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testStreamOutputWritingMessageWithoutNewLinePassingStringStreamName() {
+        $this->resetStream();
         $Output = new StreamOutput('spraysoletest://whatever');
         $Output->write('test message');
 
@@ -28,11 +29,13 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('test message', $actual);
     }
 
+    public function resetStream() {
+        StreamStub::$body = '';
+        StreamStub::$position = 0;
+    }
+
     public static function tearDownAfterClass() {
         \stream_wrapper_unregister('spraysoletest');
     }
-
-
-
 
 }
