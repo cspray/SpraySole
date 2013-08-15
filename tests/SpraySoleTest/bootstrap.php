@@ -6,4 +6,5 @@ include \SPRAYSOLE_ROOT . '/src/ClassLoader/Loader.php';
 
 $Loader = new \ClassLoader\Loader();
 $Loader->registerNamespaceDirectory('SpraySole', \SPRAYSOLE_ROOT . '/src');
+$Loader->registerNamespaceDirectory('SpraySoleTest', \SPRAYSOLE_ROOT . '/tests');
 $Loader->setAutoloader();
