@@ -11,8 +11,15 @@ class ArgvInput implements Input {
 
     private $ArrayInput;
 
+    protected $defaultAliases = [
+        '-v' => '--version'
+    ];
+
     public function __construct(array $args, array $alias = [], array $boolOnlyFlags = []) {
-        $this->alias = $alias;
+        // we are overriding $alias with defaults on purpose
+        // this is to ensure that "magic" SpraySole functionality is provided
+        $alias = \array_merge([], $alias, $this->defaultAliases);
+
         list($parsedArgs, $parsedOptions) = $this->parseArgs($args, $alias, $boolOnlyFlags);
         $this->ArrayInput = new ArrayInput($parsedArgs, $parsedOptions);
     }
@@ -39,7 +46,7 @@ class ArgvInput implements Input {
             }
 
             if (\substr($arg, 0, 1) === '-' && \array_key_exists($arg, $alias)) {
-                $arg = $this->alias[$arg];
+                $arg = $alias[$arg];
             }
 
             if (\substr($arg, 0, 2) === '--') {
