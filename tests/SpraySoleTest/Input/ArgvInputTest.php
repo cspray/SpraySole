@@ -134,4 +134,14 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($Input->getArgument(1), 'arg2');
     }
 
+    public function testVersionAliasEnabledByDefault() {
+        $args = [
+            '-v'
+        ];
+
+        $Input = new ArgvInput($args);
+
+        $this->assertTrue($Input->getOption('version'));
+    }
+
 }
