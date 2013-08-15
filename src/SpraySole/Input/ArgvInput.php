@@ -15,11 +15,15 @@ class ArgvInput implements Input {
         '-v' => '--version'
     ];
 
+    protected $defaultBoolOnly = [
+        '--version'
+    ];
+
     public function __construct(array $args, array $alias = [], array $boolOnlyFlags = []) {
-        // we are overriding $alias with defaults on purpose
+        // we are overriding with defaults on purpose
         // this is to ensure that "magic" SpraySole functionality is provided
         $alias = \array_merge([], $alias, $this->defaultAliases);
-
+        $boolOnlyFlags = \array_merge([], $boolOnlyFlags, $this->defaultBoolOnly);
         list($parsedArgs, $parsedOptions) = $this->parseArgs($args, $alias, $boolOnlyFlags);
         $this->ArrayInput = new ArrayInput($parsedArgs, $parsedOptions);
     }
