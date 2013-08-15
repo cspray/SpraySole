@@ -38,6 +38,21 @@ class StreamOutputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('message with new line' . \PHP_EOL, $actual);
     }
 
+    public function testStreamOutputNormalFormatsMessage() {
+        $Output = new StreamOutput('spraysoletest://whatever');
+        $MockFormatter = $this->getMock('\\SpraySole\\Output\\Formatter');
+        $MockFormatter->expects($this->once())
+                      ->method('format')
+                      ->with('format message')
+                      ->will($this->returnValue('the formatted msg'));
+        $Output->setFormatter($MockFormatter);
+
+        $Output->write('message with new line');
+
+        $actual = StreamStub::$body;
+        $this->assertSame('the formatted msg', $actual);
+    }
+
     public function resetStream() {
         StreamStub::$body = '';
         StreamStub::$position = 0;
