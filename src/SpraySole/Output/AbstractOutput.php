@@ -9,6 +9,8 @@
 
 namespace SpraySole\Output;
 
+use \SpraySole\Output\Formatter\NullFormatter;
+
 abstract class AbstractOutput implements Output {
 
     /**
@@ -27,6 +29,10 @@ abstract class AbstractOutput implements Output {
      * @return \SpraySole\Output\Formatter
      */
     public function getFormatter() {
+        if (!$this->Formatter) {
+            $this->Formatter = new NullFormatter();
+        }
+
         return $this->Formatter;
     }
 
