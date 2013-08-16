@@ -36,7 +36,7 @@ class Application {
      * @return boolean
      */
     public function hasCommand($command) {
-
+        return false;
     }
 
     /**
