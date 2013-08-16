@@ -35,4 +35,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $App->getCommands());
     }
 
+    public function testHasCommandReturnsFalseWithNoCommandsAdded() {
+        $App = new Application();
+        $this->assertFalse($App->hasCommand('foo'));
+    }
+
 }
