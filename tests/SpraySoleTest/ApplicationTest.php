@@ -40,4 +40,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($App->hasCommand('foo'));
     }
 
+    public function testHasCommandReturnsTrueWithCommandAddedCheckingWithString() {
+        $BarCmd = $this->getMock('\\SpraySole\\Command\\Command');
+        $BarCmd->expects($this->once())
+               ->method('getName')
+               ->will($this->returnValue('bar'));
+
+        $App = new Application();
+        $App->addCommand($BarCmd);
+
+        $this->assertTrue($App->hasCommand('bar'));
+    }
+
 }
