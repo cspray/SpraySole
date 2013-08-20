@@ -52,4 +52,46 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($App->hasCommand('bar'));
     }
 
+    public function testNoArgsInputWriteUsageToOutput() {
+        $Input = $this->getMock('\\SpraySole\\Input\\Input');
+        $Input->expects($this->once())
+              ->method('argumentsCount')
+              ->will($this->returnValue(0));
+
+        $message = <<<TEXT
+No command was provided
+
+usage:
+    [options] command [arguments]
+TEXT;
+        $Output = $this->getMock('\\SpraySole\\Output\\Output');
+        $Output->expects($this->once())
+               ->method('write')
+               ->with($message, true);
+
+        $App = new Application();
+        $App->run($Input, $Output);
+    }
+
+    public function testInputHasVersionCommandReturnsAppVersion() {
+        $Input = $this->getMock('\\SpraySole\\Input\\Input');
+        $Input->expects($this->once())
+              ->method('getOption')
+              ->with('version')
+              ->will($this->returnValue(true));
+
+        $message = <<<TEXT
+
+TEXT;
+        $Output = $this->getMock('\\SpraySole\\Output\\Output');
+        $Output->expects($this->once())
+               ->method('write')
+               ->with($message, true);
+
+        $App = new Application();
+        $App->run($Input, $Output);
+    }
+
+
+
 }
