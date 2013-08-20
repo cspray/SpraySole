@@ -36,7 +36,7 @@ class Application {
      * @return boolean
      */
     public function hasCommand($command) {
-        return false;
+        return \array_key_exists($command, $this->commands);
     }
 
     /**
@@ -64,6 +64,18 @@ class Application {
      * @return integer
      */
     public function run(Input $Input, Output $StdOut, Output $StdErr = null) {
+        if (!$Input->argumentsCount()) {
+            $StdOut->write($this->getUsageMessage(), Output::APPEND_NEW_LINE);
+        }
+    }
+
+    private function getUsageMessage() {
+        return <<<TEXT
+No command was provided
+
+usage:
+    [options] command [arguments]
+TEXT;
 
     }
 
