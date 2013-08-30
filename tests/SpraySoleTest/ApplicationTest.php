@@ -129,15 +129,25 @@ TEXT;
 
     public function testAppRunsCommandFoundAndReturnsThatCommandsExitCode() {
         $Input = $this->getMock($this->mocks['Input']);
-        $Input->expects($this->once())->method('argumentsCount')->will($this->returnValue(1));
-        $Input->expects($this->once())->method('getArgument')->with(0)->will($this->returnValue('command-name'));
+        $Input->expects($this->once())
+              ->method('argumentsCount')
+              ->will($this->returnValue(1));
+        $Input->expects($this->once())
+              ->method('getArgument')
+              ->with(0)
+              ->will($this->returnValue('command-name'));
 
         $Output = $this->getMock($this->mocks['Output']);
         $Output->expects($this->never())->method('write');
 
         $Command = $this->getMock($this->mocks['Command']);
-        $Command->expects($this->once())->method('getName')->will($this->returnValue('command-name'));
-        $Command->expects($this->once())->method('execute')->with($Input, $Output, $Output)->will($this->returnValue(0));
+        $Command->expects($this->once())
+                ->method('getName')
+                ->will($this->returnValue('command-name'));
+        $Command->expects($this->once())
+                ->method('execute')
+                ->with($Input, $Output, $Output)
+                ->will($this->returnValue(0));
 
         $App = (new Application())->addCommand($Command);
         $code = $App->run($Input, $Output);
