@@ -33,6 +33,9 @@ interface Input {
      */
     public function getArgument($argIndex);
 
+    /**
+     * @return integer
+     */
     public function argumentsCount();
 
 
