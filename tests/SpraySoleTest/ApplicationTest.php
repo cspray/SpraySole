@@ -12,16 +12,22 @@ use \SpraySole\Application;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
+    private $mocks = [
+        'Command' => '\\SpraySole\\Command\\Command',
+        'Input' => '\\SpraySole\\Input\\Input',
+        'Output' => '\\SpraySole\\Output\\Output'
+    ];
+
     public function testAddingCommandsGetsAssociativeArrayWhenGettingCommands() {
-        $FooCmd = $this->getMock('\\SpraySole\\Command\\Command');
+        $FooCmd = $this->getMock($this->mocks['Command']);
         $FooCmd->expects($this->once())
                ->method('getName')
                ->will($this->returnValue('foo'));
-        $BarCmd = $this->getMock('\\SpraySole\\Command\\Command');
+        $BarCmd = $this->getMock($this->mocks['Command']);
         $BarCmd->expects($this->once())
                ->method('getName')
                ->will($this->returnValue('bar'));
-        $BazCmd = $this->getMock('\\SpraySole\\Command\\Command');
+        $BazCmd = $this->getMock($this->mocks['Command']);
         $BazCmd->expects($this->once())
                ->method('getName')
                ->will($this->returnValue('baz'));
@@ -41,7 +47,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testHasCommandReturnsTrueWithCommandAddedCheckingWithString() {
-        $BarCmd = $this->getMock('\\SpraySole\\Command\\Command');
+        $BarCmd = $this->getMock($this->mocks['Command']);
         $BarCmd->expects($this->once())
                ->method('getName')
                ->will($this->returnValue('bar'));
@@ -53,7 +59,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNoArgsInputWriteUsageToOutput() {
-        $Input = $this->getMock('\\SpraySole\\Input\\Input');
+        $Input = $this->getMock($this->mocks['Input']);
         $Input->expects($this->once())
               ->method('argumentsCount')
               ->will($this->returnValue(0));
@@ -64,7 +70,7 @@ No command was provided
 usage:
     [options] command [arguments]
 TEXT;
-        $Output = $this->getMock('\\SpraySole\\Output\\Output');
+        $Output = $this->getMock($this->mocks['Output']);
         $Output->expects($this->once())
                ->method('write')
                ->with($message, true);
@@ -73,15 +79,16 @@ TEXT;
         $App->run($Input, $Output);
     }
 
-    public function testInputHasVersionCommandReturnsAppVersion() {
-        $Input = $this->getMock('\\SpraySole\\Input\\Input');
+    public function testInputHasVersionOptionReturnsAppVersion() {
+        $Input = $this->getMock($this->mocks['Input']);
         $Input->expects($this->once())
               ->method('getOption')
               ->with('version')
               ->will($this->returnValue(true));
 
         $message = <<<TEXT
-
+SpraySole version 0.1.0alpha
+    A console driven application powered by PHP 5.4+
 TEXT;
         $Output = $this->getMock('\\SpraySole\\Output\\Output');
         $Output->expects($this->once())
@@ -92,6 +99,32 @@ TEXT;
         $App->run($Input, $Output);
     }
 
+    public function testCommandNotFoundGivesAppropriateErrorMessage() {
+        $Input = $this->getMock($this->mocks['Input']);
+        $Input->expects($this->once())
+              ->method('getOption')
+              ->with('version')
+              ->will($this->returnValue(false));
+        $Input->expects($this->once())
+              ->method('argumentsCount')
+              ->will($this->returnValue(2));
+        $Input->expects($this->once())
+              ->method('getArgument')
+              ->with(0)
+              ->will($this->returnValue('not-listed'));
 
+        $message = <<<TEXT
+Command, not-listed, could not be found.
+
+Please use --help or --help <command> for more information on using this application.
+TEXT;
+        $Output = $this->getMock($this->mocks['Output']);
+        $Output->expects($this->once())
+               ->method('write')
+               ->with($message, true);
+
+        $App = new Application();
+        $App->run($Input, $Output);
+    }
 
 }
