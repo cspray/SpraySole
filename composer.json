@@ -1,0 +1,29 @@
+{
+    "name": "cspray/spraysole",
+    "description": "Create console driven applications powered by PHP",
+    "keywords": ["php", "console", "terminal", "cli"],
+    "homepage": "http://github.com/cspray/SpraySole",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/cspray/SpraySole/issues"
+    },
+    "authors": [
+        {
+            "name": "Charles Sprayberry",
+            "email": "sprayfire.framework@gmail.com",
+            "homepage": "http://cspray.github.io/",
+            "role": "Benevolent Dictator for Life"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=3.7"
+    },
+    "autoload": {
+        "psr-0": {
+            "SpraySole\\": "src/"
+        }
+    }
+}
