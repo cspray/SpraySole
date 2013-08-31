@@ -2,11 +2,14 @@
 
 require_once 'vendor/autoload.php';
 
-use \SpraySole\Application;
+use \SpraySole\BasicApplication;
 use \SpraySole\Input\ArgvInput;
 use \SpraySole\Output\StreamOutput;
+use \SpraySole\Provider\DefaultCommandProvider;
 
-$App = new Application();
+$App = new BasicApplication();
+
+$App->registerProvider(new DefaultCommandProvider());
 
 $Input = new ArgvInput($argv);
 $StdOut = new StreamOutput('php://stdout');
