@@ -3,8 +3,10 @@
 /**
  * Implementation of Output\Output that will send all messages to a stream resource.
  * 
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license See LICENSE in source root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SpraySole\Output;

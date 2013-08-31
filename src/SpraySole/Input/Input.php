@@ -1,9 +1,12 @@
 <?php
+
 /**
  * Abstract the parsing and retrieval of options and args coming from command line.
  * 
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license See LICENSE in source root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SpraySole\Input;

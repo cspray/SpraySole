@@ -1,126 +1,74 @@
 <?php
+
 /**
- * Class that represents the executing logic of SpraySole that executes the appropriate
- * command.
+ * Interface that represents the primary responsibilities for a SpraySole app;
+ * management of commands and the proper invocation of a command based on user input.
  * 
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license See LICENSE in source root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SpraySole;
 
-use \SpraySole\Output\Output;
-use \SpraySole\Input\Input;
 use \SpraySole\Command\Command;
+use \SpraySole\Input\Input;
+use \SpraySole\Output\Output;
 
-class Application {
-
-    const SPRAYSOLE_VERSION = '0.1.0alpha';
-
-    private $commands = [];
+interface Application {
 
     /**
-     * Provide a Command\Command that can be ran from your console app.
-     *
-     * @param \SpraySole\Command\Command $Command
-     * @return \SpraySole\Application
-     */
-    public function addCommand(Command $Command) {
-        $this->commands[$Command->getName()] = $Command;
-        return $this;
-    }
-
-    /**
-     * Determination based on the name of the command; if a string is passed it
-     * is assumed to be the command name and if a Command\Command implementation
-     * is passed the Command::getName will be used.
-     *
-     * @param string|Command $command
-     * @return boolean
-     */
-    public function hasCommand($command) {
-        return \array_key_exists($command, $this->commands);
-    }
-
-    /**
-     * Return a collection of Command\Command implementations added to the Application.
-     *
-     * The collection should be returned so that when iterating over the collection
-     * the name of the Command is the key while the Command itself is the value.
-     *
-     * @return \SpraySole\Command\Command[]
-     */
-    public function getCommands() {
-        return $this->commands;
-    }
-
-    /**
-     * Executes the logic to invoke a given Command based on $Input passed; all
-     * normal app output should be written to $StdOut and error output to $StdErr.
-     *
-     * If $StdErr is null then the application can determine its own method for
-     * writing error output.
+     * Parse the $Input and, if possible, execute the requested Command sending
+     * output to the resources made available.
      *
      * @param \SpraySole\Input\Input $Input
      * @param \SpraySole\Output\Output $StdOut
      * @param \SpraySole\Output\Output $StdErr
      * @return integer
      */
-    public function run(Input $Input, Output $StdOut, Output $StdErr = null) {
-        if ($version = $Input->getOption('version')) {
-            $StdOut->write($this->getVersionMessage(), Output::APPEND_NEW_LINE);
-            return;
-        }
-
-        if (!$Input->argumentsCount()) {
-            $StdOut->write($this->getUsageMessage(), Output::APPEND_NEW_LINE);
-            return;
-        }
-
-        $cmdName = $Input->getArgument(0);
-        if (!$this->hasCommand($cmdName)) {
-            $StdOut->write($this->getCommandNotFoundMessage($cmdName), Output::APPEND_NEW_LINE);
-            return;
-        }
-
-        $StdErr = ($StdErr) ?: $StdOut;
-        return $this->getCommands()[$cmdName]->execute($Input, $StdOut, $StdErr);
-    }
+    public function run(Input $Input, Output $StdOut, Output $StdErr = null);
 
     /**
-     * @return string
+     * Add a Command that is able to be executed by this Application
+     *
+     * @param \SpraySole\Command\Command $Command
+     * @return \SpraySole\Application
      */
-    private function getUsageMessage() {
-        return <<<TEXT
-No command was provided
-
-usage:
-    [options] command [arguments]
-TEXT;
-    }
+    public function addCommand(Command $Command);
 
     /**
-     * @return string
+     * Return all the Command implementations added to this Application
+     *
+     * @return \SpraySole\Command\Command[]
      */
-    private function getVersionMessage() {
-        $version = self::SPRAYSOLE_VERSION;
-        return <<<TEXT
-SpraySole version {$version}
-    A console driven application powered by PHP 5.4+
-TEXT;
-    }
+    public function getCommands();
 
     /**
-     * @param string $name
-     * @return string
+     * Returns true whether or not a Command identified by $cmdName has been
+     * added to this Application.
+     *
+     * @param string $cmdName
+     * @return boolean
      */
-    private function getCommandNotFoundMessage($name) {
-        return <<<TEXT
-Command, {$name}, could not be found.
+    public function hasCommand($cmdName);
 
-Please use --help or --help <command> for more information on using this application.
-TEXT;
+    /**
+     * Removes a Command identified by $cmdName that has been added to this
+     * Application.
+     *
+     * @param string $cmdName
+     * @return void
+     */
+    public function removeCommand($cmdName);
 
-    }
+    /**
+     * Register a CommandProvider to this Application that will supply one or
+     * more commands to the Application.
+     *
+     * @param \SpraySole\CommandProvider $Provider
+     * @return \SpraySole\Application
+     */
+    public function registerProvider(CommandProvider $Provider);
 
 }

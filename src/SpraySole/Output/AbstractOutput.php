@@ -26,6 +26,10 @@ abstract class AbstractOutput implements Output {
     }
 
     /**
+     * This method ensures that you will always receive a Output\Formatter
+     * implementation from this method; if one has not been set then a
+     * Output\Formatter\NullFormatter will be set to the Formatter.
+     *
      * @return \SpraySole\Output\Formatter
      */
     public function getFormatter() {

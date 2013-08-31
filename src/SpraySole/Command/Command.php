@@ -1,8 +1,13 @@
 <?php
+
 /**
+ * Interface that represents a single Command that can be executed through the
+ * console.
  * 
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license See LICENSE in source root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SpraySole\Command;
@@ -14,8 +19,11 @@ use \SpraySole\Application;
 interface Command {
 
     /**
+     * Provide the Application that the Command is being executed on in case it
+     * needs access to other Commands or publicly exposed Application state.
+     *
      * @param \SpraySole\Application $App
-     * @return mixed
+     * @return \SpraySole\Command\Command
      */
     public function setApplication(Application $App);
 

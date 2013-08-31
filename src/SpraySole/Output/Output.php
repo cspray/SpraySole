@@ -3,18 +3,38 @@
 /**
  * Abstract the sending of output to various sources.
  * 
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license See LICENSE in source root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SpraySole\Output;
 
 interface Output {
 
+    /**
+     * Flag set when writing if the Formatter should be used to format the output
+     * before it is sent to the user.
+     */
     const OUTPUT_NORMAL = 'output_normal';
+
+    /**
+     * Flag set when writing if the Formatter should be skipped and the output
+     * is sent directly to the user with no manipulation.
+     */
     const OUTPUT_RAW = 'output_raw';
 
+    /**
+     * Flag set when writing if the Output should append a new line to the message
+     * before it is sent to the user.
+     */
     const APPEND_NEW_LINE = true;
+
+    /**
+     * Flag set when writing if the Output should NOT append a new line to the message
+     * before it is sent to the user.
+     */
     const DO_NOT_APPEND_NEW_LINE = false;
 
     /**
