@@ -31,25 +31,29 @@ git clone https://github.com/cspray/SpraySole.git
 
 ## Usage
 
+This is the basic example for kicking off processing and similar to what you'll
+find in /console.php.
+
 ```php
 <?php
 
-use \SpraySole\Application;
+use \SpraySole\BasicApplication;
 use \SpraySole\Input\ArgvInput;
 use \SpraySole\Output\StreamOutput;
 
-// this is /install/console.php
+$App = new BasicApplication();
 
-$App = new Application();
-
-$App->addCommand(new \YourApp\CommandName());
+$App->addCommand(new \YourApp\Command\DooHickey());
+$App->registerProvider(new \YourApp\Command\FooProvider());
 
 $Input = new ArgvInput($argv);
 $StdOut = new StreamOutput('php://stdin');
 $StdErr = new StreamOutput('php://stderr');
 
 // $StdErr is optional and will use $StdOut if not provided
-$App->run($Input, $StdOut, $StdErr);
+$exitCode = $App->run($Input, $StdOut, $StdErr);
+
+exit($exitCode);
 
 ?>
 ```
