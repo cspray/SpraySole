@@ -1,0 +1,48 @@
+================================================================================
+SpraySole Help
+
+SpraySole is a library aimed at helping you create console driven applications.
+
+Part of the project goals is providing the capabilities of SpraySole in a way that
+are modular, reusable and tested. So, let's get started with using SpraySole.
+
+    In all examples below the usage of SpraySole driven applications will use the
+    console command `spraysole`. You may have aliased the execution of SpraySole's
+    initialization script to some other command and should use that if appropriate.
+
+--------------------------------------------------------------------------------
+Table of Contents
+
+1. Command line usage
+    (a). Bread and butter: spraysole --option cmd args
+    (b). Let's talk about options
+    (c). How SpraySole parses your command line input
+
+
+
+--------------------------------------------------------------------------------
+
+1. Command line usage
+
+    Bread and butter: spraysole --option cmd args
+
+    It is intended that SpraySole commands should all be driven off the same
+    overriding format. This will give consistency to your application's API and
+    allow for easier parsing of input from the command line. The format for
+    SpraySole commands is:
+
+    spraysole [options...] <command-name> [args...]
+
+    Let's take a look at each section of this format:
+
+    `spraysole`
+
+        This is the name of the console command powering your application. In these
+        examples it is aliased to be 'spraysole' but may be something else on your
+        system.
+
+    `[options...]`
+
+        This is zero or more option flags. Options flags are specially designated
+        user input that starts with one or two dashes (-) followed immediately by
+        the option name.
