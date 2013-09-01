@@ -33,9 +33,10 @@ class DefaultCommandProvider implements CommandProvider {
             Command\Config::NAME_PARAM => 'help',
             Command\Config::HELP_FILE_PARAM => $this->resourcesFile . '/help/help-command.txt',
             Command\Config::DESCRIPTION_FILE_PARAM => $this->resourcesFile . '/description/help-description.txt'
-        ]));
+        ]), $this->resourcesFile . '/help/spraysole.txt');
         $LsCmd = new Command\Ls(new Command\Config([
             Command\Config::NAME_PARAM => 'ls',
+            Command\Config::HELP_FILE_PARAM => $this->resourcesFile . '/help/ls-command.txt'
         ]));
         $App->addCommand($HelpCmd)
             ->addCommand($LsCmd);
