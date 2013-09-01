@@ -1,7 +1,10 @@
 ================================================================================
 SpraySole Help
 
-SpraySole is a library aimed at helping you create console driven applications.
+SpraySole is a library aimed at helping you create console driven applications
+powered by PHP. By providing clean, simple interfaces for dealing with the Command,
+Input and Output inherent to CLI apps SpraySole allows you to think more about
+solutions to the problem.
 
 Part of the project goals is providing the capabilities of SpraySole in a way that
 are modular, reusable and tested. So, let's get started with using SpraySole.
@@ -17,14 +20,14 @@ Table of Contents
     (a). Bread and butter: spraysole --option cmd args
     (b). Let's talk about options
     (c). How SpraySole parses your command line input
-
+2. 
 
 
 --------------------------------------------------------------------------------
 
 1. Command line usage
 
-    Bread and butter: spraysole --option cmd args
+    (a) Bread and butter: spraysole --option cmd args
 
     It is intended that SpraySole commands should all be driven off the same
     overriding format. This will give consistency to your application's API and
@@ -37,12 +40,36 @@ Table of Contents
 
     `spraysole`
 
-        This is the name of the console command powering your application. In these
-        examples it is aliased to be 'spraysole' but may be something else on your
-        system.
+        This is the name of your console command alias that executes SpraySole's
+        /console.php script. In these examples it is aliased to be 'spraysole'
+        but may be something else on your system.
 
     `[options...]`
 
         This is zero or more option flags. Options flags are specially designated
         user input that starts with one or two dashes (-) followed immediately by
-        the option name.
+        the option name. Option flags can then optionally have an argument or not;
+        by default if an option flag is immediately preceded by a value that is
+        not itself an option flag it is considered an argument. An option flag can
+        be boolean only, its presence being true and absence being false.
+
+        Please check out section 1.b for important information about working with
+        options.
+
+    `<command-name>`
+
+        This is an alphanumeric, space-free string representing the command being
+        executed on the application. You should ensure that the appropriate object
+        implementation representing the command has been added to your application
+        in /console.php.
+
+    `[args...]`
+
+        This is a space separated list of values that are arguments to the given
+        command. The presence and value expectations of arguments are entirely
+        command specific.
+
+
+    (b). Let's talk about options
+
+
