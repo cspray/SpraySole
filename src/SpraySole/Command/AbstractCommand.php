@@ -15,10 +15,13 @@ use SpraySole\Application;
 use \SpraySole\Command\Command;
 use SpraySole\Output\Output;
 
+/**
+ * @property \SpraySole\Application $App
+ */
 abstract class AbstractCommand implements Command {
 
     /**
-     * @property \SpraySole\Command\Command
+     * @property \SpraySole\Application
      */
     protected $App;
 
@@ -53,9 +56,12 @@ abstract class AbstractCommand implements Command {
     }
 
     public function getHelp() {
-        if (\is_readable($file = $this->CmdConfig->getHelpFile())) {
-            return \file_get_contents($file);
+        if (!\is_readable($file = $this->CmdConfig->getHelpFile())) {
+            $message = 'The help file: \'' . $file . '\' could not be found or is not readable';
+            throw new Exception\InvalidResourceFileException($message);
         }
+
+        return \file_get_contents($file);
     }
 
     public function getDescription() {
