@@ -1,0 +1,4 @@
+SpraySole ls command
+
+The ls command is a default command provided by SpraySole and lists all the commands
+currently available to an application.
