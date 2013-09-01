@@ -41,6 +41,17 @@ TEXT;
         $this->assertsame($expected, $Cmd->getDescription());
     }
 
+    public function testSettingConfigWithHelpFileNotReadableThrowsExceptionWhenHelpIsGotten() {
+        $CmdConfig = new Config([
+            Config::HELP_FILE_PARAM => '/not/real/path'
+        ]);
+        $Cmd = new AbstractCommandStub($CmdConfig);
+
+        $message = 'The help file: \'/not/real/path\' could not be found or is not readable';
+        $this->setExpectedException('\\SpraySole\\Command\\Exception\\InvalidResourceFileException', $message);
+        $Cmd->getHelp();
+    }
+
 
 
 
