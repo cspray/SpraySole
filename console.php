@@ -12,8 +12,8 @@ $App = new BasicApplication();
 $App->registerProvider(new DefaultCommandProvider());
 
 $Input = new ArgvInput($argv);
-$StdOut = new StreamOutput('php://stdout');
-$StdErr = new StreamOutput('php://stderr');
+$StdOut = new StreamOutput(\STDOUT);
+$StdErr = new StreamOutput(\STDERR);
 
 $exitCode = (int) $App->run($Input, $StdOut, $StdErr);
 
