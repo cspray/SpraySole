@@ -19,24 +19,6 @@ use SpraySole\Output\Output;
 class Ls extends AbstractCommand {
 
     /**
-     * Return the description of the command.
-     *
-     * @return string
-     */
-    public function getDescription() {
-
-    }
-
-    /**
-     * Return the help output for the command.
-     *
-     * @return string
-     */
-    public function getHelp() {
-
-    }
-
-    /**
      * Execute the given Command based on the Input, writing whatever Output is
      * necessary based on any normal processing or errors; return an exit code
      * or 0 if there was no error.
@@ -49,4 +31,5 @@ class Ls extends AbstractCommand {
     public function execute(Input $Input, Output $StdOut, Output $StdErr) {
 
     }
+
 }
