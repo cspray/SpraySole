@@ -12,10 +12,18 @@
 
 namespace SpraySole\Command;
 
-use SpraySole\Input\Input;
-use SpraySole\Output\Output;
+use \SpraySole\Input\Input;
+use \SpraySole\Output\Output;
+use \SpraySole\Command\Config;
 
 class Help extends AbstractCommand {
+
+    private $appHelpFile;
+
+    public function __construct(Config $CmdConfig, $appHelpFile) {
+        parent::__construct($CmdConfig);
+        $this->appHelpFile = (string) $appHelpFile;
+    }
 
     /**
      * Return the description of the command.
@@ -40,7 +48,7 @@ TEXT;
      */
     public function execute(Input $Input, Output $StdOut, Output $StdErr) {
         if (!$cmdName = $Input->getArgument(1)) {
-            $StdOut->write($this->getSpraySoleHelpMessage(), Output::APPEND_NEW_LINE);
+            $StdOut->write(\file_get_contents($this->appHelpFile), Output::APPEND_NEW_LINE);
             return 0;
         }
 
@@ -49,13 +57,11 @@ TEXT;
             return 0;
         }
 
+        if ($this->App->hasCommand($cmdName)) {
+            $StdOut->write($this->App->getCommands()[$cmdName]->getHelp(), Output::APPEND_NEW_LINE);
+            return 0;
+        }
 
-    }
-
-    private function getSpraySoleHelpMessage() {
-        return <<<TEXT
-
-TEXT;
     }
 
 }
