@@ -15,6 +15,7 @@ namespace SpraySole;
 use \SpraySole\Command\Command;
 use \SpraySole\Input\Input;
 use \SpraySole\Output\Output;
+use \SpraySole\Provider\CommandProvider;
 
 interface Application {
 
@@ -66,7 +67,7 @@ interface Application {
      * Register a CommandProvider to this Application that will supply one or
      * more commands to the Application.
      *
-     * @param \SpraySole\CommandProvider $Provider
+     * @param \SpraySole\Provider\CommandProvider $Provider
      * @return \SpraySole\Application
      */
     public function registerProvider(CommandProvider $Provider);

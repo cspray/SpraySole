@@ -13,7 +13,6 @@
 namespace SpraySole\Provider;
 
 use \SpraySole\Application;
-use \SpraySole\CommandProvider;
 use \SpraySole\Command;
 
 class DefaultCommandProvider implements CommandProvider {

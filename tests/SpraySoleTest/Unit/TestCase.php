@@ -16,7 +16,7 @@ class TestCase extends PHPUnit_Framework_TestCase {
         'Output' => '\\SpraySole\\Output\\Output',
         'Formatter' => '\\SpraySole\\Output\\Formatter',
         'Command' => '\\SpraySole\\Command\\Command',
-        'Provider' => '\\SpraySole\\CommandProvider',
+        'Provider' => '\\SpraySole\\Provider\\CommandProvider',
         'Application' => '\\SpraySole\\Application'
     ];
 
