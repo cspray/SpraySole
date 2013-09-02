@@ -11,10 +11,5 @@ $App = new BasicApplication();
 
 $App->registerProvider(new DefaultCommandProvider());
 
-$Input = new ArgvInput($argv);
-$StdOut = new StreamOutput(\STDOUT);
-$StdErr = new StreamOutput(\STDERR);
-
-$exitCode = (int) $App->run($Input, $StdOut, $StdErr);
-
+$exitCode = (int) $App->run(new ArgvInput($argv), new StreamOutput(\STDOUT), new StreamOutput(\STDERR));
 exit($exitCode);
