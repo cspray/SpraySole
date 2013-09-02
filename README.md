@@ -1,5 +1,7 @@
 # SpraySole
 
+[![Build Status](https://travis-ci.org/cspray/SpraySole.png?branch=master)](https://travis-ci.org/cspray/SpraySole)
+
 SpraySole is a PHP library to help create console applications powered by PHP. The API is intended to allow the easy creation of console applications that can be object oriented and cleanly separated.
 
 **This library is still heavily under construction. It is recommended that you do not use this library yet!**
