@@ -1,5 +1,7 @@
 # Contributing to SpraySole
 
+> Be sure to check out the plentiful docs in /doc and in app with `spraysole help`.
+
 SpraySole is an OSS project and gladly welcomes all pull requests for bug fixes, feature additions and maintainability refactorings. If you plan on contributing to the SpraySole project we request that you adhere to the following guidelines.
 
 ## Follow coding guidelines!
