@@ -10,7 +10,7 @@
  * @since   0.1
  */
 
-namespace SpraySole;
+namespace SpraySole\Provider;
 
 use \SpraySole\Application;
 
