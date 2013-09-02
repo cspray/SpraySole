@@ -9,7 +9,10 @@
 
 - More transparent and flexible handling of options and arguments with Commands
 - App configuration added to allow changing runtime behavior of SpraySole
+-
 
 ## v0.3.0
+
+- Output\Formatter that enables the use of color in supported terminals
 
 *More ideas to come*
