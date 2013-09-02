@@ -14,6 +14,7 @@ namespace SpraySole;
 use \SpraySole\Output\Output;
 use \SpraySole\Input\Input;
 use \SpraySole\Command\Command;
+use \SpraySole\Provider\CommandProvider;
 
 class BasicApplication implements Application {
 
@@ -28,7 +29,7 @@ class BasicApplication implements Application {
     private $commands = [];
 
     /**
-     * @property \SpraySole\CommandProvider[]
+     * @property \SpraySole\Provider\CommandProvider[]
      */
     private $providers = [];
 
@@ -80,23 +81,23 @@ class BasicApplication implements Application {
     public function run(Input $Input, Output $StdOut, Output $StdErr = null) {
         if ($Input->getOption('version')) {
             $StdOut->write($this->getVersionMessage(), Output::APPEND_NEW_LINE);
-            return;
+            return ErrorCodes::NO_ERROR;
         }
 
         if (!$Input->argumentsCount()) {
             $StdOut->write($this->getUsageMessage(), Output::APPEND_NEW_LINE);
-            return;
+            return ErrorCodes::BAD_INPUT;
         }
 
         foreach ($this->providers as $Provider) {
-            /** @var \SpraySole\CommandProvider $Provider */
+            /** @var \SpraySole\Provider\CommandProvider $Provider */
             $Provider->register($this);
         }
 
         $cmdName = $Input->getArgument(0);
         if (!$this->hasCommand($cmdName)) {
             $StdOut->write($this->getCommandNotFoundMessage($cmdName), Output::APPEND_NEW_LINE);
-            return;
+            return ErrorCodes::COMMAND_NOT_FOUND;
         }
 
         $StdErr = ($StdErr) ?: $StdOut;
