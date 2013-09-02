@@ -9,6 +9,7 @@
 namespace SpraySoleTest\Unit;
 
 use \SpraySole\BasicApplication;
+use \SpraySole\ErrorCodes;
 
 class BasicApplicationTest extends TestCase {
 
@@ -73,6 +74,16 @@ TEXT;
         $App->run($Input, $Output);
     }
 
+    public function testNoArgsInputReturnsErrorCode() {
+        $Input = $this->getMock($this->mocks('Input'));
+        $Input->expects($this->once())
+              ->method('argumentsCount')
+              ->will($this->returnValue(0));
+
+        $exitCode = (new BasicApplication())->run($Input, $this->getMock($this->mocks('Output')));
+        $this->assertSame(ErrorCodes::BAD_INPUT, $exitCode);
+    }
+
     public function testInputHasVersionOptionReturnsAppVersion() {
         $Input = $this->getMock($this->mocks('Input'));
         $Input->expects($this->once())
@@ -93,12 +104,19 @@ TEXT;
         $App->run($Input, $Output);
     }
 
-    public function testCommandNotFoundGivesAppropriateErrorMessage() {
+    public function testInputHavingVersionReturnsAppropriateErrorCodeNoError() {
         $Input = $this->getMock($this->mocks('Input'));
         $Input->expects($this->once())
               ->method('getOption')
               ->with('version')
-              ->will($this->returnValue(false));
+              ->will($this->returnValue(true));
+
+        $exitCode = (new BasicApplication())->run($Input, $this->getMock($this->mocks('Output')));
+        $this->assertSame(ErrorCodes::NO_ERROR, $exitCode);
+    }
+
+    public function testCommandNotFoundGivesAppropriateErrorMessage() {
+        $Input = $this->getMock($this->mocks('Input'));
         $Input->expects($this->once())
               ->method('argumentsCount')
               ->will($this->returnValue(2));
@@ -119,6 +137,20 @@ TEXT;
 
         $App = new BasicApplication();
         $App->run($Input, $Output);
+    }
+
+    public function testCommandNotFoundGivesAppropriateErrorCodeNotFound() {
+        $Input = $this->getMock($this->mocks('Input'));
+        $Input->expects($this->once())
+              ->method('argumentsCount')
+              ->will($this->returnValue(2));
+        $Input->expects($this->once())
+              ->method('getArgument')
+              ->with(0)
+              ->will($this->returnValue('not-listed'));
+
+        $exitCode = (new BasicApplication())->run($Input, $this->getMock($this->mocks('Output')));
+        $this->assertSame($exitCode, ErrorCodes::COMMAND_NOT_FOUND);
     }
 
     public function testAppRunsCommandFoundAndReturnsThatCommandsExitCode() {
