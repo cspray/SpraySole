@@ -9,6 +9,7 @@
 
 - More transparent and flexible handling of options and arguments with Commands
 - App configuration added to allow changing runtime behavior of SpraySole
+- Streamline exceptions and refactor all used to be SpraySole derived.
 
 ## v0.3.0
 
