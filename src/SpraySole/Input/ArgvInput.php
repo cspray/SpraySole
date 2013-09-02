@@ -73,8 +73,7 @@ class ArgvInput implements Input {
         $parsedOptions = [];
         $parsedArgs = [];
 
-        // TODO Magic marker - we need to pull the use of 'console.php' out into a configuration
-        // value so that users can properly set their own custom init script if needed.
+        // TODO Magic marker - we need to pull the use of 'console.php' out into a configuration value so that users can properly set their own custom init script if needed.
         if (isset($args[0]) && \strpos($args[0], 'console.php')) {
             unset($args[0]);
         }
@@ -153,4 +152,5 @@ class ArgvInput implements Input {
     public function argumentsCount() {
         return $this->ArrayInput->argumentsCount();
     }
+
 }
