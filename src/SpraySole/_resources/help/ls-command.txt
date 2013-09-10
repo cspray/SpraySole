@@ -2,3 +2,13 @@ SpraySole ls command
 
 The ls command is a default command provided by SpraySole and lists all the commands
 currently available to an application.
+
+All examples will assume that your app is executed via the command `spraysole`.
+
+Usage of the ls command:
+
+spraysole ls
+
+    - Lists the name and description for all commands added to the running application
+
+Note that this command does not support options or arguments and all options and arguments provided will be ignored.
