@@ -14,21 +14,19 @@ use \SpraySoleTest\Unit;
 
 class HelpTest extends Unit\TestCase {
 
-    private $CmdConfig;
+    private $options = [];
 
     public function setUp() {
-        $this->CmdConfig = new Config([
-            Config::NAME_PARAM => 'help'
-        ]);
+        $this->options['name'] = 'help';
     }
 
     public function testGettingHelpCommandName() {
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $this->assertSame('help', $Cmd->getName());
     }
 
     public function testGettingHelpDescription() {
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $expected = <<<TEXT
 Provide details on how to use SpraySole or a specific command.
 TEXT;
@@ -55,7 +53,7 @@ TEXT;
                ->with($expected, true);
         $StdErr = $this->getMock($this->mocks('Output'));
 
-        $Cmd = new Help($this->CmdConfig, \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/spraysole.txt');
+        $Cmd = new Help($this->options, \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/spraysole.txt');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
         $this->assertSame(0, $code, 'The error code is indicative of an error');
     }
@@ -74,11 +72,10 @@ TEXT;
                ->with('ran it' . \PHP_EOL);
         $StdErr = $this->getMock($this->mocks('Output'));
 
-        $CmdConfig = new Config([
-            Config::NAME_PARAM => 'help',
-            Config::HELP_FILE_PARAM => \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/help.txt'
-        ]);
-        $Cmd = new Help($CmdConfig, '');
+        $options = $this->options;
+        $options['help_file'] = \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/help.txt';
+
+        $Cmd = new Help($options, '');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
         $this->assertSame(0, $code, 'The error code is indicative of an error');
     }
@@ -111,7 +108,7 @@ TEXT;
             ->method('getCommands')
             ->will($this->returnValue(['foo' => $FooCmd]));
 
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $Cmd->setApplication($App);
         $code = $Cmd->execute($Input, $StdOut, $StdError);
 

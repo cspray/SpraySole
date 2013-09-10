@@ -20,8 +20,8 @@ class Help extends AbstractCommand {
 
     private $appHelpFile;
 
-    public function __construct(Config $CmdConfig, $appHelpFile) {
-        parent::__construct($CmdConfig);
+    public function __construct(array $options, $appHelpFile) {
+        parent::__construct($options);
         $this->appHelpFile = (string) $appHelpFile;
     }
 
@@ -61,7 +61,6 @@ TEXT;
             $StdOut->write($this->App->getCommands()[$cmdName]->getHelp(), Output::APPEND_NEW_LINE);
             return 0;
         }
-
     }
 
 }

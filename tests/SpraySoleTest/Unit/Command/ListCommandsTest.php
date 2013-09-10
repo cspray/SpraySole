@@ -60,9 +60,7 @@ TEXT;
         $StdErr->expects($this->never())
                ->method('write');
 
-        $ListCmd = (new ListCommands(new Config([
-            Config::NAME_PARAM => 'ls'
-        ])))->setApplication($App);
+        $ListCmd = (new ListCommands(['name' => 'ls']))->setApplication($App);
         $exitCode = $ListCmd->execute($this->getMock($this->mocks('Input')), $StdOut, $StdErr);
         $this->assertSame(ErrorCodes::NO_ERROR, $exitCode);
     }

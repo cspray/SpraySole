@@ -11,9 +11,9 @@
 
 namespace SpraySole\Command;
 
-use SpraySole\Application;
+use \SpraySole\Application;
 use \SpraySole\Command\Command;
-use SpraySole\Output\Output;
+use \SpraySole\Output\Output;
 
 /**
  * @property \SpraySole\Application $App
@@ -25,12 +25,11 @@ abstract class AbstractCommand implements Command {
      */
     protected $App;
 
-    private $CmdConfig;
+    private $options;
 
-    private $name = '';
-
-    public function __construct(Config $CmdConfig) {
-        $this->CmdConfig = $CmdConfig;
+    public function __construct(array $options) {
+        $options += ['name' => null, 'help_file' => null, 'description_file' => null];
+        $this->options = $options;
     }
 
     /**
@@ -48,15 +47,11 @@ abstract class AbstractCommand implements Command {
      * @return string
      */
     public function getName() {
-        if (!$this->name) {
-            $this->name = $this->CmdConfig->getName();
-        }
-
-        return $this->name;
+        return $this->options['name'];
     }
 
     public function getHelp() {
-        if (!\is_readable($file = $this->CmdConfig->getHelpFile())) {
+        if (!\is_readable($file = $this->options['help_file'])) {
             $message = 'The help file: \'' . $file . '\' could not be found or is not readable';
             throw new Exception\InvalidResourceFileException($message);
         }
@@ -65,7 +60,7 @@ abstract class AbstractCommand implements Command {
     }
 
     public function getDescription() {
-        if (\is_readable($file = $this->CmdConfig->getDescriptionFile())) {
+        if (\is_readable($file = $this->options['description_file'])) {
             return \file_get_contents($file);
         }
     }
