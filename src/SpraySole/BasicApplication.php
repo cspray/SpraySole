@@ -109,7 +109,8 @@ class BasicApplication implements Application {
 
 
     public function removeCommand($cmdName) {
-        // TODO: Implement removeCommand() method.
+        $this->commands[$cmdName] = null;
+        unset($this->commands[$cmdName]);
     }
 
     /**
