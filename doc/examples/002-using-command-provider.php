@@ -39,4 +39,8 @@ $App->registerProvider(new SomeCommandProvider());
  * Command implementations start gaining dependencies and are more complicated
  * to create. It allows you to easily create modules of Commands at add them at
  * runtime, perhaps based on some environment configuration.
+ *
+ * This method also allows your library holding SpraySole\Command implementations
+ * to be more easily portable allowing more developers to take advantage of your
+ * hard work.
  */
