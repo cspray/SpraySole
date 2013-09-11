@@ -158,4 +158,25 @@ class ArgvInputTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('baz', $Input->getArgument(1));
     }
 
+    public function testGettingArgumentsCountWithNoArgumentsReturnsZero() {
+        $Input = new ArgvInput([]);
+        $this->assertSame(0, $Input->argumentsCount(), 'The arguments count is not zero although there are no arguments passed');
+    }
+
+    public function testGettingArgumentsCountWithOptionsAndArgumentsReturnsProperValue() {
+        $Input = new ArgvInput([
+            '--something',
+            '--foo',
+            'this is not a command but an arg to --foo',
+            'this is an argument',
+            'this is the second one',
+            'this is the third one'
+        ]);
+
+        $this->assertSame(3, $Input->argumentsCount(), 'The arguments count is improperly counting options or not counting all arguments passed');
+    }
+
+
+
+
 }
