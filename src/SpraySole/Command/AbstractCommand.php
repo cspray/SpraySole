@@ -60,9 +60,12 @@ abstract class AbstractCommand implements Command {
     }
 
     public function getDescription() {
-        if (\is_readable($file = $this->options['description_file'])) {
-            return \file_get_contents($file);
+        if (!\is_readable($file = $this->options['description_file'])) {
+            $message = 'The description file: \'' . $file . '\' could not be found or is not readable';
+            throw new Exception\InvalidResourceFileException($message);
         }
+
+        return \file_get_contents($file);
     }
 
     /**
