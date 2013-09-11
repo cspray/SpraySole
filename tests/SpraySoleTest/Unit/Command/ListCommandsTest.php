@@ -65,4 +65,12 @@ TEXT;
         $this->assertSame(ErrorCodes::NO_ERROR, $exitCode);
     }
 
+    public function testGettingListCommandsDescription() {
+        $expected = <<<TEXT
+List all enabled Commands added to the running application
+TEXT;
+        $Cmd = new ListCommands([]);
+        $this->assertSame($expected, $Cmd->getDescription());
+    }
+
 }
