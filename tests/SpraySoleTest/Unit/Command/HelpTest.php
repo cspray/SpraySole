@@ -8,7 +8,7 @@
 namespace SpraySoleTest\Unit\Command;
 
 use \SpraySole\Command\Help;
-use \SpraySole\Command\Config;
+use \SpraySole\ErrorCodes;
 use \SpraySoleTest\Unit;
 
 
@@ -55,7 +55,7 @@ TEXT;
 
         $Cmd = new Help($this->options, \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/spraysole.txt');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
-        $this->assertSame(0, $code, 'The error code is indicative of an error');
+        $this->assertSame(ErrorCodes::NO_ERROR, $code, 'The error code is indicative of an error');
     }
 
     public function testGetSpraySoleHelpHelp() {
@@ -77,7 +77,7 @@ TEXT;
 
         $Cmd = new Help($options, '');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
-        $this->assertSame(0, $code, 'The error code is indicative of an error');
+        $this->assertSame(ErrorCodes::NO_ERROR, $code, 'The error code is indicative of an error');
     }
 
     public function testGetAddedCommandHelp() {
@@ -93,16 +93,16 @@ TEXT;
                ->with('foo command help');
         $StdError = $this->getMock($this->mocks('Output'));
 
+        $FooCmd = $this->getMock($this->mocks('Command'));
+        $FooCmd->expects($this->once())
+               ->method('getHelp')
+               ->will($this->returnValue('foo command help'));
+
         $App = $this->getMock($this->mocks('Application'));
         $App->expects($this->once())
             ->method('hasCommand')
             ->with('foo')
             ->will($this->returnValue(true));
-
-        $FooCmd = $this->getMock($this->mocks('Command'));
-        $FooCmd->expects($this->once())
-               ->method('getHelp')
-               ->will($this->returnValue('foo command help'));
 
         $App->expects($this->once())
             ->method('getCommands')
@@ -112,7 +112,39 @@ TEXT;
         $Cmd->setApplication($App);
         $code = $Cmd->execute($Input, $StdOut, $StdError);
 
-        $this->assertSame(0, $code);
+        $this->assertSame(ErrorCodes::NO_ERROR, $code);
+    }
+
+    public function testGettingHelpForCommandNotAdded() {
+        $Input = $this->getMock($this->mocks('Input'));
+        $Input->expects($this->once())
+              ->method('getArgument')
+              ->with(1)
+              ->will($this->returnValue('foo'));
+
+        $expectedOutput = <<<TEXT
+The command 'foo' has not been added to this application
+TEXT;
+
+        $StdOut = $this->getMock($this->mocks('Output'));
+        $StdOut->expects($this->once())
+               ->method('write')
+               ->with($expectedOutput, true);
+        $StdError = $this->getMock($this->mocks('Output'));
+        $StdError->expects($this->never())
+                 ->method('write');
+
+        $App = $this->getMock($this->mocks('Application'));
+        $App->expects($this->once())
+            ->method('hasCommand')
+            ->with('foo')
+            ->will($this->returnValue(false));
+
+        $Cmd = new Help($this->options, '');
+        $Cmd->setApplication($App);
+        $code = $Cmd->execute($Input, $StdOut, $StdError);
+
+        $this->assertSame(ErrorCodes::COMMAND_NOT_FOUND, $code);
     }
 
 
