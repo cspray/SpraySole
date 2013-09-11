@@ -1,6 +1,6 @@
 # SpraySole
 
-[![Build Status](https://travis-ci.org/cspray/SpraySole.png?branch=master)](https://travis-ci.org/cspray/SpraySole)
+[![Build Status](https://travis-ci.org/cspray/SpraySole.png?branch=master)](https://travis-ci.org/cspray/SpraySole) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/cspray/SpraySole/badges/quality-score.png?s=96e48ad7d84b5f6a8cfc878241a70abf9b8e6fdf)](https://scrutinizer-ci.com/g/cspray/SpraySole/) [![Code Coverage](https://scrutinizer-ci.com/g/cspray/SpraySole/badges/coverage.png?s=003dc2b01002006cb80444d60ecf0ba1a8acbea8)](https://scrutinizer-ci.com/g/cspray/SpraySole/)
 
 SpraySole is a PHP library to help create console applications powered by PHP. The API is intended to allow the easy creation of console applications that can be object oriented and cleanly separated.
 
