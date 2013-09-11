@@ -8,8 +8,9 @@
 namespace SpraySoleTest\Unit\Input;
 
 use \SpraySole\Input\ArgvInput;
+use \SpraySoleTest\Unit;
 
-class ArgvInputTest extends \PHPUnit_Framework_TestCase {
+class ArgvInputTest extends Unit\TestCase {
 
     public function testGetOptionsReturnsEmptyArrayWithNoArgs() {
         $args = [];

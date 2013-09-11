@@ -11,7 +11,6 @@ use \SpraySole\Command\Help;
 use \SpraySole\ErrorCodes;
 use \SpraySoleTest\Unit;
 
-
 class HelpTest extends Unit\TestCase {
 
     private $options = [];

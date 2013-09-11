@@ -7,7 +7,6 @@
 
 namespace SpraySoleTest\Unit\Command;
 
-use \SpraySole\Command\Config;
 use \SpraySole\Command\ListCommands;
 use \SpraySole\ErrorCodes;
 use \SpraySoleTest\Unit;

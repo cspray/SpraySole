@@ -8,10 +8,11 @@
 
 namespace SpraySoleTest\Unit\Command;
 
-use \SpraySole\Command\Config;
+use \SpraySoleTest\Unit;
 use \SpraySoleTest\Stubs\AbstractCommandStub;
 
-class AbstractCommandTest extends \PHPUnit_Framework_TestCase {
+
+class AbstractCommandTest extends Unit\TestCase {
 
     public function testAbstractCommandAlwaysEnabledByDefault() {
         $Cmd = new AbstractCommandStub([]);

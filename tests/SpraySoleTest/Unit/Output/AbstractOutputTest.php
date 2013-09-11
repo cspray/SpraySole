@@ -8,9 +8,10 @@
 
 namespace SpraySoleTest\Unit\Output;
 
+use \SpraySoleTest\Unit;
 use \SpraySoleTest\Stubs\OutputStub;
 
-class AbstractOutputTest extends \PHPUnit_Framework_TestCase {
+class AbstractOutputTest extends Unit\TestCase {
 
     public function testGettingFormatterWithNoneSetReturnsNullFormatter() {
         $Output = new OutputStub();
