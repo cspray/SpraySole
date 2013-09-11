@@ -28,16 +28,11 @@ class DefaultCommandProvider implements CommandProvider {
      * @return void
      */
     public function register(Application $App) {
-        $HelpCmd = new Command\Help(new Command\Config([
-            Command\Config::NAME_PARAM => 'help',
-            Command\Config::HELP_FILE_PARAM => $this->resourcesFile . '/help/help-command.txt',
-            Command\Config::DESCRIPTION_FILE_PARAM => $this->resourcesFile . '/description/help-description.txt'
-        ]), $this->resourcesFile . '/help/spraysole.txt');
-        $LsCmd = new Command\ListCommands(new Command\Config([
-            Command\Config::NAME_PARAM => 'ls',
-            Command\Config::HELP_FILE_PARAM => $this->resourcesFile . '/help/ls-command.txt'
-        ]));
-        $App->addCommand($HelpCmd)
-            ->addCommand($LsCmd);
+        $HelpCmd = new Command\Help(
+            ['name' => 'help', 'help_file' => $this->resourcesFile . '/help/help-command.txt'],
+            $this->resourcesFile . '/help/spraysole.txt'
+        );
+        $LsCmd = new Command\ListCommands(['name' => 'ls', 'help_file' => $this->resourcesFile . '/help/ls-command.txt']);
+        $App->addCommand($HelpCmd)->addCommand($LsCmd);
     }
 }
