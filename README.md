@@ -4,8 +4,6 @@
 
 SpraySole is a PHP library to help create console applications powered by PHP. The API is intended to allow the easy creation of console applications that can be object oriented and cleanly separated.
 
-**This library is still heavily under construction. It is recommended that you do not use this library yet!**
-
 ## Project Goals
 
 - Support the easy creation of console apps powered by PHP following the common use case of: `[options] command [arguments]`
@@ -15,21 +13,23 @@ SpraySole is a PHP library to help create console applications powered by PHP. T
 
 ## Installation
 
-##### For use
+The recommended method for installing SpraySole is through Composer. We're going to assume that you already have Composer installed on your machine and that you can execute it from the command line by typing, you guessed it, `composer`.
 
-Right now the only supported method for installing SpraySole for use is by [downloading a zip file][spraysoledownload].
+```shell
+composer require cspray/spraysole:0.1.*
+```
 
-As the library matures Composer support will be added and the library available through Packagist.
+This will install the SpraySole library for you in your current working directory.
 
-Once you have installed SpraySole for use it is recommended that you alias your app's primary console command to: `/install/console.php`
+If you already have a project you'd like to use SpraySole in you can also adjust your `composer.json`.
 
-##### For contributions
-
-If you'd like to contribute to the SpraySole project you should install through Git:
-
-```plain
-git clone https://github.com/cspray/SpraySole.git
-````
+```json
+{
+    "require": {
+        "cspray/spraysole": "0.1.*"
+    }
+}
+```
 
 ## Usage
 
@@ -49,8 +49,8 @@ $App->addCommand(new \YourApp\Command\DooHickey());
 $App->registerProvider(new \YourApp\Command\FooProvider());
 
 $Input = new ArgvInput($argv);
-$StdOut = new StreamOutput('php://stdin');
-$StdErr = new StreamOutput('php://stderr');
+$StdOut = new StreamOutput(\STDOUT);
+$StdErr = new StreamOutput(\STDERR);
 
 // $StdErr is optional and will use $StdOut if not provided
 $exitCode = $App->run($Input, $StdOut, $StdErr);
