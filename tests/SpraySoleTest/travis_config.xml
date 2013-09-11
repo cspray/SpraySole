@@ -27,7 +27,8 @@
     </logging>
     <filter>
         <blacklist>
-            <file>../../vendor/composer/ClassLoader.php</file>
+            <directory suffix=".php">../../tests/SpraySoleTest/</directory>
+            <directory>../../vendor/</directory>
         </blacklist>
     </filter>
 
