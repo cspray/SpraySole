@@ -1,0 +1,6 @@
+# 0.1.0
+
+- Initial release
+- Provide interfaces: Application, Input, Output, Command, Provider
+- Provide default implementations: BasicApplication, ArrayInput, ArgvInput, StreamOutput, HelpCommand, ListCommands, DefaultCommandProvider
+- 100% code coverage and thoroughly unit tested
