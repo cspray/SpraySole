@@ -18,10 +18,6 @@ Table of Contents
 
 1. Command line usage
     (a). Bread and butter: spraysole --option cmd args
-    (b). Let's talk about options
-    (c). How SpraySole parses your command line input
-2. 
-
 
 --------------------------------------------------------------------------------
 
@@ -68,8 +64,3 @@ Table of Contents
         This is a space separated list of values that are arguments to the given
         command. The presence and value expectations of arguments are entirely
         command specific.
-
-
-    (b). Let's talk about options
-
-
