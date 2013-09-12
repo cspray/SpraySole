@@ -53,7 +53,7 @@ TEXT;
 
     public function getDescription() {
         return <<<TEXT
-Lists the Commands available to an Application
+List all enabled Commands added to the running application
 TEXT;
     }
 

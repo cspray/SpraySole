@@ -14,14 +14,14 @@ namespace SpraySole\Command;
 
 use \SpraySole\Input\Input;
 use \SpraySole\Output\Output;
-use \SpraySole\Command\Config;
+use \SpraySole\ErrorCodes;
 
 class Help extends AbstractCommand {
 
     private $appHelpFile;
 
-    public function __construct(Config $CmdConfig, $appHelpFile) {
-        parent::__construct($CmdConfig);
+    public function __construct(array $options, $appHelpFile) {
+        parent::__construct($options);
         $this->appHelpFile = (string) $appHelpFile;
     }
 
@@ -49,19 +49,21 @@ TEXT;
     public function execute(Input $Input, Output $StdOut, Output $StdErr) {
         if (!$cmdName = $Input->getArgument(1)) {
             $StdOut->write(\file_get_contents($this->appHelpFile), Output::APPEND_NEW_LINE);
-            return 0;
+            return ErrorCodes::NO_ERROR;
         }
 
         if ($cmdName === 'help') {
             $StdOut->write($this->getHelp(), Output::APPEND_NEW_LINE);
-            return 0;
+            return ErrorCodes::NO_ERROR;
         }
 
         if ($this->App->hasCommand($cmdName)) {
             $StdOut->write($this->App->getCommands()[$cmdName]->getHelp(), Output::APPEND_NEW_LINE);
-            return 0;
+            return ErrorCodes::NO_ERROR;
         }
 
+        $StdOut->write(\sprintf('The command \'%s\' has not been added to this application', $cmdName), Output::APPEND_NEW_LINE);
+        return ErrorCodes::COMMAND_NOT_FOUND;
     }
 
 }

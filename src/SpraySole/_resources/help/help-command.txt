@@ -4,11 +4,10 @@ The help command is a default command provided by SpraySole and tells you how to
 use SpraySole for your applications.
 
 All examples will assume that your app is executed via the command `spraysole`.
-You may need to
 
 Usage of the help command:
 
-spraysole help
+spraysole help [command-name]
 
     Details how to use SpraySole for basic usage of the application including, but
     not limited to:
@@ -17,12 +16,9 @@ spraysole help
     - How to add commands to the application
     - Where you can find more details on SpraySole
 
-spraysole help <command-name>
-
-    If the <command-name> argument is a valid command name listed the help details
-    for that command will be output. Otherwise an error message suggesting a valid
-    command name will be output.
-
+    If the <command-name> argument is provided and is a valid command name listed
+    the help details for that command will be output. Otherwise an error message
+    suggesting a valid command name will be output.
 
 Note that the help command does not support any command specific options and will
 only look at one argument. All options and command arguments past the 1st one will

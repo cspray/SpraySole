@@ -247,4 +247,18 @@ TEXT;
         $App->run($Input, $this->getMock($this->mocks('Output')));
     }
 
+    public function testRemovingAddedCommandFromApplication() {
+        $Cmd = $this->getMock($this->mocks('Command'));
+        $Cmd->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue('foo'));
+
+        $App = new BasicApplication();
+        $App->addCommand($Cmd);
+        $this->assertTrue($App->hasCommand('foo'), 'The app does not have the added command');
+        $App->removeCommand('foo');
+        $this->assertFalse($App->hasCommand('foo'), 'The app still has the command although it has been removed');
+
+    }
+
 }

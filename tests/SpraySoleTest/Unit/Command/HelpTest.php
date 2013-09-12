@@ -8,27 +8,24 @@
 namespace SpraySoleTest\Unit\Command;
 
 use \SpraySole\Command\Help;
-use \SpraySole\Command\Config;
+use \SpraySole\ErrorCodes;
 use \SpraySoleTest\Unit;
-
 
 class HelpTest extends Unit\TestCase {
 
-    private $CmdConfig;
+    private $options = [];
 
     public function setUp() {
-        $this->CmdConfig = new Config([
-            Config::NAME_PARAM => 'help'
-        ]);
+        $this->options['name'] = 'help';
     }
 
     public function testGettingHelpCommandName() {
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $this->assertSame('help', $Cmd->getName());
     }
 
     public function testGettingHelpDescription() {
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $expected = <<<TEXT
 Provide details on how to use SpraySole or a specific command.
 TEXT;
@@ -55,9 +52,9 @@ TEXT;
                ->with($expected, true);
         $StdErr = $this->getMock($this->mocks('Output'));
 
-        $Cmd = new Help($this->CmdConfig, \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/spraysole.txt');
+        $Cmd = new Help($this->options, \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/spraysole.txt');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
-        $this->assertSame(0, $code, 'The error code is indicative of an error');
+        $this->assertSame(ErrorCodes::NO_ERROR, $code, 'The error code is indicative of an error');
     }
 
     public function testGetSpraySoleHelpHelp() {
@@ -74,13 +71,12 @@ TEXT;
                ->with('ran it' . \PHP_EOL);
         $StdErr = $this->getMock($this->mocks('Output'));
 
-        $CmdConfig = new Config([
-            Config::NAME_PARAM => 'help',
-            Config::HELP_FILE_PARAM => \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/help.txt'
-        ]);
-        $Cmd = new Help($CmdConfig, '');
+        $options = $this->options;
+        $options['help_file'] = \SPRAYSOLE_ROOT . '/tests/SpraySoleTest/_resources/help.txt';
+
+        $Cmd = new Help($options, '');
         $code = $Cmd->execute($Input, $StdOut, $StdErr);
-        $this->assertSame(0, $code, 'The error code is indicative of an error');
+        $this->assertSame(ErrorCodes::NO_ERROR, $code, 'The error code is indicative of an error');
     }
 
     public function testGetAddedCommandHelp() {
@@ -96,26 +92,58 @@ TEXT;
                ->with('foo command help');
         $StdError = $this->getMock($this->mocks('Output'));
 
+        $FooCmd = $this->getMock($this->mocks('Command'));
+        $FooCmd->expects($this->once())
+               ->method('getHelp')
+               ->will($this->returnValue('foo command help'));
+
         $App = $this->getMock($this->mocks('Application'));
         $App->expects($this->once())
             ->method('hasCommand')
             ->with('foo')
             ->will($this->returnValue(true));
 
-        $FooCmd = $this->getMock($this->mocks('Command'));
-        $FooCmd->expects($this->once())
-               ->method('getHelp')
-               ->will($this->returnValue('foo command help'));
-
         $App->expects($this->once())
             ->method('getCommands')
             ->will($this->returnValue(['foo' => $FooCmd]));
 
-        $Cmd = new Help($this->CmdConfig, '');
+        $Cmd = new Help($this->options, '');
         $Cmd->setApplication($App);
         $code = $Cmd->execute($Input, $StdOut, $StdError);
 
-        $this->assertSame(0, $code);
+        $this->assertSame(ErrorCodes::NO_ERROR, $code);
+    }
+
+    public function testGettingHelpForCommandNotAdded() {
+        $Input = $this->getMock($this->mocks('Input'));
+        $Input->expects($this->once())
+              ->method('getArgument')
+              ->with(1)
+              ->will($this->returnValue('foo'));
+
+        $expectedOutput = <<<TEXT
+The command 'foo' has not been added to this application
+TEXT;
+
+        $StdOut = $this->getMock($this->mocks('Output'));
+        $StdOut->expects($this->once())
+               ->method('write')
+               ->with($expectedOutput, true);
+        $StdError = $this->getMock($this->mocks('Output'));
+        $StdError->expects($this->never())
+                 ->method('write');
+
+        $App = $this->getMock($this->mocks('Application'));
+        $App->expects($this->once())
+            ->method('hasCommand')
+            ->with('foo')
+            ->will($this->returnValue(false));
+
+        $Cmd = new Help($this->options, '');
+        $Cmd->setApplication($App);
+        $code = $Cmd->execute($Input, $StdOut, $StdError);
+
+        $this->assertSame(ErrorCodes::COMMAND_NOT_FOUND, $code);
     }
 
 

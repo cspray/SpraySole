@@ -7,7 +7,6 @@
 
 namespace SpraySoleTest\Unit\Command;
 
-use \SpraySole\Command\Config;
 use \SpraySole\Command\ListCommands;
 use \SpraySole\ErrorCodes;
 use \SpraySoleTest\Unit;
@@ -60,11 +59,17 @@ TEXT;
         $StdErr->expects($this->never())
                ->method('write');
 
-        $ListCmd = (new ListCommands(new Config([
-            Config::NAME_PARAM => 'ls'
-        ])))->setApplication($App);
+        $ListCmd = (new ListCommands(['name' => 'ls']))->setApplication($App);
         $exitCode = $ListCmd->execute($this->getMock($this->mocks('Input')), $StdOut, $StdErr);
         $this->assertSame(ErrorCodes::NO_ERROR, $exitCode);
+    }
+
+    public function testGettingListCommandsDescription() {
+        $expected = <<<TEXT
+List all enabled Commands added to the running application
+TEXT;
+        $Cmd = new ListCommands([]);
+        $this->assertSame($expected, $Cmd->getDescription());
     }
 
 }
